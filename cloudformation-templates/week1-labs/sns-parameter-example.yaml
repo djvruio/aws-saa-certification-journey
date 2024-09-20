@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  SNSEmail:
+    Description: Enter email for SNS notification
+    Type: String
+Resources:
+  AlertSNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      Subscription:
+        - Endpoint: !Ref SNSEmail
+          Protocol: email
+

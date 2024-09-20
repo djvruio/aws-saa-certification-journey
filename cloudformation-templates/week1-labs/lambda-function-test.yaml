@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template to create a lambda function
+
+Parameters:
+  LambdaFunctionName:
+    Type: String
+    MinLength: '1'
+    MaxLength: '64'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9_-]*'
+    Description: The name of the Lambda function to be deployed
+    Default: Lambda-Python-Function-Example
+
+Resources:
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Description: Shows event and handler info just for fun
+      FunctionName: !Ref LambdaFunctionName
+      Architectures: 
+        - x86_64
+      Handler: index.lambda_handler
+      MemorySize: 256
+      Role: arn:aws:iam::011528262402:role/service-role/MyHelloWorld-role-rd81tz32
+      Runtime: python3.8
+      Timeout: 240
+      Code:
+        ZipFile: |
+          # imports
+          import os
+          import json
+
+          def lambda_handler(event, context):
+            #TODO implement
+            print(event)
+            print(context)
+            print(context.memory_limit_in_mb)
+            print(context.invoked_function_arn)
+            
+            return {
+                'statusCode': 200,
+                'body': json.dumps('Hello from Lambda!')
+            }
+
+Outputs:
+  LambdaFunctionName:
+    Description: Name of the Lambda function
+    Value: !Ref LambdaFunction
